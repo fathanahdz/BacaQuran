@@ -1,8 +1,5 @@
 package com.d121211002.bacaquran.ui.activities
 
-import android.net.http.HttpException
-import android.os.Build
-import androidx.annotation.RequiresExtension
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.d121211002.bacaquran.data.models.Surah
 import com.d121211002.bacaquran.data.repository.BacaQuranRepository
 import com.d121211002.bacaquran.ui.BacaQuranUiState
 import kotlinx.coroutines.launch
@@ -31,16 +27,29 @@ class BacaQuranViewModel(private val bacaQuranRepository: BacaQuranRepository) :
     }
 
 
+
     fun getSurahs() {
         viewModelScope.launch {
             bacaQuranUiState = BacaQuranUiState.Loading
-            bacaQuranUiState = try {
-                BacaQuranUiState.Success(bacaQuranRepository.getSurahs())
+            try {
+                var result = bacaQuranRepository.getSurahs()
+                bacaQuranUiState = BacaQuranUiState.Success(result.results.orEmpty())
             } catch (e: IOException) {
                 BacaQuranUiState.Error
             }
         }
     }
+
+    fun getSurah() = viewModelScope.launch {
+        bacaQuranUiState = BacaQuranUiState.Loading
+        try {
+            var result = bacaQuranRepository.getSurah()
+            BacaQuranUiState.Success(result)
+        }catch (e: IOException){
+            BacaQuranUiState
+        }
+    }
+
 
 
     companion object {

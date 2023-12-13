@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -25,29 +26,51 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.d121211002.bacaquran.data.models.detail.Surah
+import com.d121211002.bacaquran.ui.BacaQuranUiState
+import com.d121211002.bacaquran.ui.activities.BacaQuranViewModel
+import kotlinx.serialization.json.JsonNull.content
 
 @Composable
-fun DetailSurahScreen(){
+fun DetailSurahScreen(
+    surah: Surah,
+    bacaQuranUiState: BacaQuranUiState,
+    retryAction: () -> Unit,
+){
     Column (
         Modifier
             .background(color = Color(0xFF1A4D2E))
             .padding(24.dp)
             .fillMaxWidth()
             .fillMaxHeight()
-    ) {
-        detailSurah(name = "Al-Fatihah", translation = "Pembukaan", relevation = "Makkiyah" , numberOfAyahs = 7 )
-        Spacer(modifier = Modifier.height(32.dp))
-        detailAyat()
+    ) {detailSurah(
+        name = surah.name,
+        translation = surah.translation,
+        revelation = surah.revelation,
+        numberOfAyahs = surah.numberOfAyahs
+    )
+        Spacer(modifier = Modifier.height(16.dp))
+        LazyColumn(content = {
+            items(surah.ayahs.size){
+                    index ->
+                        detailAyat(
+                            arab = surah.ayahs[index].arab,
+                            number = surah.ayahs[index].number?.inSurah,
+                            translation = surah.ayahs[index].translation,
+                            tafsir = surah.ayahs[index].tafsir
+                        )
+            }
+        })
     }
 }
 
 
 @Composable
-fun detailSurah(name: String, translation:String, relevation: String, numberOfAyahs: Int){
+fun detailSurah(name: String?, translation:String?, revelation: String?, numberOfAyahs: Int?){
     Column (
         Modifier.fillMaxWidth(),
         ){
-        Text(text = name,
+        Text(text = name?:"",
             Modifier.fillMaxWidth(),
 
             fontSize = 20.sp,
@@ -60,7 +83,7 @@ fun detailSurah(name: String, translation:String, relevation: String, numberOfAy
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.Start),
             verticalAlignment = Alignment.Top,
         ){
-            Text(text = translation,
+            Text(text = translation?:"",
                 fontSize = 10.sp,
                 lineHeight = 12.sp,
                 fontWeight = FontWeight(600),
@@ -73,7 +96,7 @@ fun detailSurah(name: String, translation:String, relevation: String, numberOfAy
                 fontWeight = FontWeight(600),
                 color = Color(0xFFFAF3E3),
             )
-            Text(text = relevation,
+            Text(text = revelation?:"",
                 fontSize = 10.sp,
                 lineHeight = 12.sp,
                 fontWeight = FontWeight(600),
@@ -97,18 +120,19 @@ fun detailSurah(name: String, translation:String, relevation: String, numberOfAy
 }
 
 @Composable
-fun detailAyat(){
+fun detailAyat(arab: String?, number: Int?, translation: String?, tafsir: String?){
     Row {
-        nomorAyat(number = 1)
+        nomorAyat(number = number)
         Spacer(modifier = Modifier.width(8.dp))
         isiAyat(
-            bunyiAyat = "بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ",
-            artiAyat = "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.",
-            tafsir = "Aku memulai bacaan Al-Qur'an dengan menyebut nama Allah, nama teragung bagi satu-satunya Tuhan yang patut disembah, yang memiliki seluruh sifat kesempurnaan dan tersucikan dari segala bentuk kekurangan, Yang Maha Pengasih, Pemilik dan sumber sifat kasih Yang menganugerahkan segala macam karunia, baik besar maupun kecil, kepada seluruh makhluk, Maha Penyayang Yang tiada henti memberi kasih dan kebaikan kepada orang-orang yang beriman. Memulai setiap pekerjaan dengan menyebut nama Allah (basmalah) akan mendatangkan keberkahan, dan dengan mengingat Allah dalam setiap pekerjaan, seseorang akan memiliki kekuatan spiritual untuk melakukan yang terbaik dan menghindar dari keburukan.")
+            bunyiAyat = arab,
+            artiAyat = translation,
+            tafsir = tafsir,
+        )
     }
 }
 @Composable
-fun nomorAyat(number: Int){
+fun nomorAyat(number: Int?){
     Row(
         Modifier
             .width(36.dp)
@@ -134,7 +158,7 @@ fun nomorAyat(number: Int){
 
 
 @Composable
-fun isiAyat(bunyiAyat: String, artiAyat: String, tafsir: String){
+fun isiAyat(bunyiAyat: String?, artiAyat: String?, tafsir: String?){
     Column(
         Modifier
             .fillMaxWidth()
@@ -150,7 +174,7 @@ fun isiAyat(bunyiAyat: String, artiAyat: String, tafsir: String){
         horizontalAlignment = Alignment.Start,
     ) {
         Text(
-            text = bunyiAyat,
+            text = bunyiAyat?:"",
 
             fontSize = 14.sp,
             lineHeight = 16.8.sp,
@@ -158,7 +182,7 @@ fun isiAyat(bunyiAyat: String, artiAyat: String, tafsir: String){
             color = Color(0xFF000000),
         )
         Text(
-            text = artiAyat,
+            text = artiAyat?:"",
 
             fontSize = 10.sp,
             lineHeight = 12.sp,
@@ -173,7 +197,7 @@ fun isiAyat(bunyiAyat: String, artiAyat: String, tafsir: String){
             color = Color(0xFF000000),
         )
         Text(
-            text = tafsir,
+            text = tafsir?:"",
             fontSize = 8.sp,
             lineHeight = 12.sp,
             fontWeight = FontWeight(700),
@@ -183,8 +207,8 @@ fun isiAyat(bunyiAyat: String, artiAyat: String, tafsir: String){
     }
 }
 
-@Preview
-@Composable
-fun tabPreview(){
-    DetailSurahScreen()
-}
+//@Preview
+//@Composable
+//fun tabPreview(){
+//    DetailSurahScreen()
+//}

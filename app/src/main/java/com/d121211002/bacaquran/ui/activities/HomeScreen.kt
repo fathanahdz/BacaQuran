@@ -21,11 +21,13 @@ import com.d121211002.bacaquran.ui.activities.main.ListSurahScreen
 
 @Composable
 fun HomeScreen(
-    bacaQuranUiState: BacaQuranUiState, retryAction: () -> Unit, modifier: Modifier = Modifier
+    bacaQuranUiState: BacaQuranUiState, retryAction: () -> Unit,
+    navigation: () -> Unit,
+    modifier: Modifier = Modifier,
 ){
     when (bacaQuranUiState){
         is BacaQuranUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is BacaQuranUiState.Success -> ListSurahScreen()
+        is BacaQuranUiState.Success -> ListSurahScreen(surahs = bacaQuranUiState.surahs, navigation = navigation)
         is BacaQuranUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
 }
