@@ -1,5 +1,6 @@
 package com.d121211002.bacaquran.ui.activities.main
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,30 +23,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.d121211002.bacaquran.R
-import com.d121211002.bacaquran.data.models.detail.SurahsItem
-import java.time.format.TextStyle
+import com.d121211002.bacaquran.data.models.SurahsItem
+import com.d121211002.bacaquran.ui.viewmodel.BacaQuranViewModel
 
 @Composable
-fun ListSurahScreen(surahs: List<SurahsItem>, navigation: ()->Unit){
+fun ListSurahScreen(surahs: List<SurahsItem>, navigation: ()->Unit, viewModel: BacaQuranViewModel){
 
     Column(
         Modifier
             .background(color = Color(0xFF1A4D2E))
             .padding(24.dp)
             .fillMaxHeight()
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Surah",
-                fontSize = 36.sp,
+            text = "Daftar Surah",
+            fontSize = 36.sp,
                 lineHeight = 28.8.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFFFAF3E3),
-                textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(16.dp))
         LazyColumn(content = {
@@ -56,7 +57,9 @@ fun ListSurahScreen(surahs: List<SurahsItem>, navigation: ()->Unit){
                         artiSurah = surahs[index].translation,
                         revelation = surahs[index].revelation,
                         jumlahAyat = surahs[index].numberOfAyahs,
+                        viewModel = viewModel,
                         navigation = navigation
+
                     )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -76,18 +79,31 @@ fun topAppBar(){
 fun NomorSurah(nomorSurah: Int?){
     Row(
         Modifier
-            .width(32.dp)
-            .height(24.dp)
-            .background(color = Color(0xFFFAF3E3), shape = RoundedCornerShape(size = 0.dp)),
+            .width(36.dp)
+            .height(52.dp)
+            .border(
+                BorderStroke(2.dp, Color.Transparent),
+                shape = RoundedCornerShape(12.dp),
+            )
+
+            .background(
+                color = Color(0xFFFAF3E3),
+                shape = RoundedCornerShape(
+                    topStart = CornerSize(0.dp),
+                    topEnd = CornerSize(12.dp),
+                    bottomEnd = CornerSize(0.dp),
+                    bottomStart = CornerSize(12.dp)
+                )),
+
         horizontalArrangement = Arrangement.spacedBy(0.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
     ){
         Text(text = nomorSurah?.toString() ?: "",
             Modifier
-                .height(12.dp),
+                .width(32.dp),
 
-            fontSize = 10.sp,
-            lineHeight = 12.sp,
+            fontSize = 16.sp,
+            lineHeight = 18.sp,
             fontWeight = FontWeight(400),
             color = Color(0xFF000000),
 
@@ -102,11 +118,18 @@ fun InfoSurah(namaSurah: String?, artiSurah:String?, revelation:String?, jumlahA
         Modifier
             .fillMaxWidth()
             .border(
-                width = 0.5.dp,
-                color = Color(0xFFFAF3E3),
+                BorderStroke(2.dp, Color.Transparent),
+                shape = RoundedCornerShape(16.dp),
             )
 
-            .background(color = Color(0xFFFAF3E3), shape = RoundedCornerShape(size = 0.dp))
+            .background(
+                color = Color(0xFFFAF3E3),
+                shape = RoundedCornerShape(
+                    topStart = CornerSize(0.dp),
+                    topEnd = CornerSize(16.dp),
+                    bottomEnd = CornerSize(0.dp),
+                    bottomStart = CornerSize(16.dp)
+                ))
             .padding(start = 8.dp, top = 12.dp, end = 8.dp, bottom = 12.dp),
 
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Top),
@@ -115,16 +138,16 @@ fun InfoSurah(namaSurah: String?, artiSurah:String?, revelation:String?, jumlahA
         Text(
             text = namaSurah?:"",
 
-            fontSize = 14.sp,
-            lineHeight = 16.8.sp,
+            fontSize = 20.sp,
+            lineHeight = 24.sp,
             fontWeight = FontWeight(600),
             color = Color(0xFF000000),
         )
         Text(
             text = artiSurah?:"",
 
-            fontSize = 10.sp,
-            lineHeight = 12.sp,
+            fontSize = 16.sp,
+            lineHeight = 18.sp,
             fontWeight = FontWeight(600),
             color = Color(0xFF000000),
             )
@@ -132,22 +155,22 @@ fun InfoSurah(namaSurah: String?, artiSurah:String?, revelation:String?, jumlahA
 
         ){
             Text(text = revelation?:"",
-                fontSize = 10.sp,
-                lineHeight = 12.sp,
+                fontSize = 16.sp,
+                lineHeight = 18.sp,
                 fontWeight = FontWeight(600),
                 color = Color(0xFF000000),
                 )
             Spacer(modifier = Modifier.width(2.dp))
             Text(text = "|",
-                fontSize = 10.sp,
-                lineHeight = 12.sp,
+                fontSize = 16.sp,
+                lineHeight = 18.sp,
                 fontWeight = FontWeight(600),
                 color = Color(0xFF000000),
                 )
             Spacer(modifier = Modifier.width(2.dp))
             Text(text = "$jumlahAyat ayat",
-                fontSize = 10.sp,
-                lineHeight = 12.sp,
+                fontSize = 16.sp,
+                lineHeight = 18.sp,
                 fontWeight = FontWeight(600),
                 color = Color(0xFF000000),
                 )
@@ -157,12 +180,24 @@ fun InfoSurah(namaSurah: String?, artiSurah:String?, revelation:String?, jumlahA
 }
 
 @Composable
-fun Surah(nomorSurah: Int?,namaSurah: String?,artiSurah: String?, revelation: String?, jumlahAyat: Int?, navigation: () -> Unit){
+fun Surah(
+    nomorSurah: Int?,
+    namaSurah: String?,
+    artiSurah: String?,
+    revelation: String?,
+    jumlahAyat: Int?,
+    viewModel: BacaQuranViewModel,
+    navigation: () -> Unit){
 
     Row (
-        Modifier.fillMaxWidth().clickable {
-            navigation()
-        }
+        Modifier
+            .fillMaxWidth()
+            .clickable {
+                navigation()
+                if (nomorSurah != null) {
+                    viewModel.getSurah(numberSurah = nomorSurah)
+                }
+            }
     ){
         NomorSurah(nomorSurah = nomorSurah )
         Spacer(modifier = Modifier.width(8.dp))

@@ -16,16 +16,17 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.d121211002.bacaquran.R
+import com.d121211002.bacaquran.TempState
 import com.d121211002.bacaquran.ui.activities.detail.DetailSurahScreen
+import com.d121211002.bacaquran.ui.viewmodel.BacaQuranViewModel
+import com.d121211002.bacaquran.ui.activities.main.HomeScreen
 
 enum class AppRoute(val route:String){
     Home(route = "Home"),
@@ -35,6 +36,8 @@ enum class AppRoute(val route:String){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BacaQuranApp(
+    viewModel: BacaQuranViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    uiState: TempState,
     navController: NavHostController = rememberNavController()
 ){
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -47,15 +50,15 @@ fun BacaQuranApp(
                 .fillMaxSize()
                 .padding(it)
         ){
-            val bacaQuranViewModel: BacaQuranViewModel =
-                viewModel(factory = BacaQuranViewModel.Factory)
-            BacaQuranContent(viewModel = bacaQuranViewModel, innerPadding = PaddingValues(16.dp), navController = navController)
+
+            BacaQuranContent(uiState = uiState,viewModel = viewModel, innerPadding = PaddingValues(16.dp), navController = navController)
         }
     }
 }
 
 @Composable
 fun BacaQuranContent(
+    uiState: TempState,
     viewModel: BacaQuranViewModel,
     innerPadding : PaddingValues,
     navController: NavHostController,
@@ -68,8 +71,9 @@ fun BacaQuranContent(
             AppRoute.Home.name
         ){
             HomeScreen(
-                bacaQuranUiState = viewModel.bacaQuranUiState,
+                bacaQuranUiState = uiState.screenState,
                 retryAction = viewModel:: getSurahs,
+                viewModel = viewModel,
                 navigation = { navController.navigate(AppRoute.Detail.name)
                             println(navController.currentDestination.toString())
                 }
@@ -79,9 +83,14 @@ fun BacaQuranContent(
             AppRoute.Detail.name
         ){
             DetailSurahScreen(
-                bacaQuranUiState = viewModel.bacaQuranUiState,
-                retryAction = viewModel::getSurah,
-            )
+                detailSurahState = uiState.detailScreenState,
+                retryAction = { viewModel.getSurah(viewModel.tempState.value.numberSurah) },
+                viewModel = viewModel,
+                navigation = { navController.navigate(AppRoute.Home.name)
+                                println(navController.currentDestination.toString())
+                }
+
+                )
         }
     }
 }

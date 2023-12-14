@@ -1,5 +1,7 @@
-package com.d121211002.bacaquran.data.repository
+package com.d121211002.bacaquran.data
 
+import com.d121211002.bacaquran.data.repository.BacaQuranRepository
+import com.d121211002.bacaquran.data.repository.NetworkBacaQuranRepository
 import com.d121211002.bacaquran.data.source.remote.BacaQuranApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json

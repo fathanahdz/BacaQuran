@@ -1,7 +1,7 @@
 package com.d121211002.bacaquran.data.source.remote
 
-import com.d121211002.bacaquran.data.models.detail.Surah
-import com.d121211002.bacaquran.data.models.detail.SurahsItem
+import com.d121211002.bacaquran.data.models.Surah
+import com.d121211002.bacaquran.data.models.SurahsItem
 import retrofit2.http.GET
 import retrofit2.http.Path
 

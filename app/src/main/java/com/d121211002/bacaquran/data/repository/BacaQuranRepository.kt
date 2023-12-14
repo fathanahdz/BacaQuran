@@ -1,8 +1,7 @@
 package com.d121211002.bacaquran.data.repository
 
-import com.d121211002.bacaquran.data.models.detail.Surah
-import com.d121211002.bacaquran.data.models.detail.Surahs
-import com.d121211002.bacaquran.data.models.detail.SurahsItem
+import com.d121211002.bacaquran.data.models.Surah
+import com.d121211002.bacaquran.data.models.SurahsItem
 import com.d121211002.bacaquran.data.source.remote.BacaQuranApiService
 
 /** Fetches list of Surah from bacaQuranApi */

@@ -1,4 +1,4 @@
-package com.d121211002.bacaquran.data.models.detail
+package com.d121211002.bacaquran.data.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,7 +16,7 @@ data class Ayah(
     @SerialName(value="number")
     val number: Number?,
     @SerialName(value="tafsir")
-    val tafsir: String?,
+    val tafsir: Tafsir?,
     @SerialName(value="translation")
     val translation: String?
 )

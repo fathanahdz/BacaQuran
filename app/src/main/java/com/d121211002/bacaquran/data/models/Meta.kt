@@ -1,4 +1,4 @@
-package com.d121211002.bacaquran.data.models.detail
+package com.d121211002.bacaquran.data.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

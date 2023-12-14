@@ -1,7 +1,7 @@
-package com.d121211002.bacaquran.ui
+package com.d121211002.bacaquran
 
-import com.d121211002.bacaquran.data.models.detail.Surah
-import com.d121211002.bacaquran.data.models.detail.SurahsItem
+import com.d121211002.bacaquran.data.models.Surah
+import com.d121211002.bacaquran.data.models.SurahsItem
 
 sealed interface BacaQuranUiState {
     data class Success(val surahs: List<SurahsItem>) : BacaQuranUiState
@@ -16,8 +16,11 @@ sealed interface DetailSurahState{
 
 }
 
-data class BacaQuranUiState(
-    val listScreenState: BacaQuranUiState = BacaQuranUiState.Start,
-    val detailSurahState: DetailSurahState = DetailSurahState.Loading,
+data class TempState(
+    val numberSurah: Int = 0,
+    val screenState: BacaQuranUiState,
+    val detailScreenState: DetailSurahState,
+){
 
-)
+}
+

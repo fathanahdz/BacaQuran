@@ -1,4 +1,4 @@
-package com.d121211002.bacaquran.ui.activities
+package com.d121211002.bacaquran.ui.activities.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -13,21 +13,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.d121211002.bacaquran.R
-import com.d121211002.bacaquran.ui.BacaQuranUiState
-import com.d121211002.bacaquran.ui.activities.main.ListSurahScreen
+import com.d121211002.bacaquran.BacaQuranUiState
+import com.d121211002.bacaquran.ui.viewmodel.BacaQuranViewModel
 
 @Composable
 fun HomeScreen(
-    bacaQuranUiState: BacaQuranUiState, retryAction: () -> Unit,
+    bacaQuranUiState: BacaQuranUiState,
+    retryAction: () -> Unit,
+    viewModel: BacaQuranViewModel,
     navigation: () -> Unit,
     modifier: Modifier = Modifier,
 ){
     when (bacaQuranUiState){
         is BacaQuranUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is BacaQuranUiState.Success -> ListSurahScreen(surahs = bacaQuranUiState.surahs, navigation = navigation)
+        is BacaQuranUiState.Success -> ListSurahScreen(surahs = bacaQuranUiState.surahs, viewModel = viewModel, navigation = navigation)
         is BacaQuranUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
 }
@@ -59,8 +60,4 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
         contentDescription = stringResource(R.string.loading)
     )
 }
-@Preview
-@Composable
-fun previewLoading(){
-    LoadingScreen()
-}
+
