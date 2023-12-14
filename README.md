@@ -9,3 +9,6 @@ Menggunakan API dari Quran API ID
 REST API Al-Quran Indonesia dengan terjemahan, tafsir (Kemenag, Quraish Shihab, Al-Jalalain), audio murottal (per surah dan ayat dari 6 qori), random ayat.
 
 https://github.com/renomureza/quran-api-id
+
+
+#### Special Thankss to Fakhri Rasyad yang telah membantu dalam pengerjaan tugas ini
