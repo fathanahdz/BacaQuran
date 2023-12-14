@@ -11,4 +11,4 @@ REST API Al-Quran Indonesia dengan terjemahan, tafsir (Kemenag, Quraish Shihab, 
 https://github.com/renomureza/quran-api-id
 
 
-#### Special Thankss to Fakhri Rasyad yang telah membantu dalam pengerjaan tugas ini
+Special Thankss to Fakhri Rasyad yang telah membantu dalam pengerjaan tugas ini🙏
